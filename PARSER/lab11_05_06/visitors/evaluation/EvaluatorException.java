@@ -1,5 +1,6 @@
 package lab11_05_06.visitors.evaluation;
 
+@SuppressWarnings("serial")
 public class EvaluatorException extends RuntimeException {
 
 	public EvaluatorException() {

@@ -1,5 +1,6 @@
 package lab11_05_06.visitors.typechecking;
 
+@SuppressWarnings("serial")
 public class TypecheckerException extends RuntimeException {
 
 	public TypecheckerException() {

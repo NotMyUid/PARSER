@@ -1,5 +1,6 @@
 package lab11_05_06.parser;
 
+@SuppressWarnings("serial")
 public class TokenizerException extends Exception {
 
 	public TokenizerException() {

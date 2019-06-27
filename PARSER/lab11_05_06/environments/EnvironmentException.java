@@ -1,5 +1,6 @@
 package lab11_05_06.environments;
 
+@SuppressWarnings("serial")
 public class EnvironmentException extends RuntimeException {
 
 	public EnvironmentException() {
