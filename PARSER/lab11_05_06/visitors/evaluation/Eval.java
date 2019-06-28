@@ -13,6 +13,7 @@ import lab11_05_06.parser.Tokenizer;
 import lab11_05_06.parser.TokenizerException;
 import lab11_05_06.parser.ast.Block;
 import lab11_05_06.parser.ast.Exp;
+import lab11_05_06.parser.ast.ExpSeq;
 import lab11_05_06.parser.ast.Ident;
 import lab11_05_06.parser.ast.Prog;
 import lab11_05_06.parser.ast.Stmt;
@@ -96,13 +97,28 @@ public class Eval implements Visitor<Value> {
 		stmt.accept(this);
 		return null;
 	}
-
+	
+	
 	@Override
 	public Value visitMoreStmt(Stmt first, StmtSeq rest) {
 		first.accept(this);
 		rest.accept(this);
 		return null;
 	}
+
+	@Override
+	public Value visitSingleExp(Exp exp) {
+		exp.accept(this);
+		return null;
+	}
+	
+	@Override
+	public Value visitMoreExp(Exp first, ExpSeq rest) {
+		first.accept(this);
+		rest.accept(this);
+		return null;
+	}
+
 
 	// dynamic semantics of expressions; a value is returned by the visitor
 
@@ -155,7 +171,12 @@ public class Eval implements Visitor<Value> {
 	public Value visitEq(Exp left, Exp right) {
 		return new BoolValue(left.accept(this).equals(right.accept(this)));
 	}
-
+	
+	@Override
+	public Value visitSet(Exp left, ExpSeq right) {
+		return new SetValue(left.accept(this), right.accept(this));
+	}
+	
 	@Override
 	public Value visitPairLit(Exp left, Exp right) {
 		return new PairValue(left.accept(this), right.accept(this));

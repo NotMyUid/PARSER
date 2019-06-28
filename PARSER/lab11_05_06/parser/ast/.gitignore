@@ -31,3 +31,8 @@
 /StmtSeq.class
 /StringLiteral.class
 /UnaryOp.class
+/ExpSeq.class
+/MoreExp.class
+/SingleExp.class
+/Set.class
+/NaryOp.class

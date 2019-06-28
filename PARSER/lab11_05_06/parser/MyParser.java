@@ -64,6 +64,15 @@ public class MyParser implements Parser {
 		}
 		return new SingleStmt(stmt);
 	}
+	
+	private ExpSeq parseExpSeq() throws ParserException {
+		Exp exp = parseExp();
+		if (tokenizer.tokenType() == STMT_SEP) {
+			tryNext();
+			return new MoreExp(exp, parseExpSeq());
+		}
+		return new SingleExp(exp);
+	}
 
 	private Stmt parseStmt() throws ParserException {
 		switch (tokenizer.tokenType()) {
@@ -181,6 +190,15 @@ public class MyParser implements Parser {
 		case OPEN_BLOCK:
 			return parseSet();
 		}
+	}
+	
+	private Set parseSet() throws ParserException {
+		consume(OPEN_BLOCK); // or tryNext();
+		Exp left = parseExp();
+		consume(EXP_SEP);
+		ExpSeq right = parseExpSeq();
+		consume(CLOSE_BLOCK);
+		return new Set(left, right);
 	}
 	
 	private StringLiteral parseString() throws ParserException {
