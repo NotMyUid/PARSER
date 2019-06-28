@@ -15,21 +15,21 @@ public class StreamTokenizer implements Tokenizer {
 									// token
 	private TokenType tokenType;
 	private String tokenString;
+	private String isString;
 	private int intValue;
 	private boolean boolValue;
-	private String stringValue;
 	private final Scanner scanner;
 
 	static {
-		// remark: groups must correspond to the ordinal of the corresponding
-		// token type
-		final String skipRegEx = "(\\s+|//.*)"; // group 1
-		final String identRegEx = "([a-zA-Z][a-zA-Z0-9]*)"; // group 2
-		final String numRegEx = "(0[xX][0-9a-fA-F]+|[0-9]+)"; // group 3 (4)
-		final String stringRegEx = "(\"[0-9a-zA-Z\\\"]*\")";
-		final String symbolRegEx = "\\+|\\*|==|=|\\(|\\)|\\[|\\]|;|,|\\{|\\}|-|!|&&";
-		regEx = skipRegEx + "|" + identRegEx + "|" + numRegEx + "|" + symbolRegEx + "|" + stringRegEx ;
-	}
+        // remark: groups must correspond to the ordinal of the corresponding
+        // token type
+        final String skipRegEx = "(\\s+|//.*)"; // group 1
+        final String identRegEx = "([a-zA-Z][a-zA-Z0-9]*)"; // group 2
+        final String numRegEx = "(0[xX][0-9a-fA-F]+|[0-9]+)"; // group 3 
+        final String stringRegEx = "(\"[0-9a-zA-Z\\\"]*\")";
+        final String symbolRegEx = "\\+|\\*|==|=|\\(|\\)|\\[|\\]|;|,|\\{|\\}|-|!|&&";
+        regEx = skipRegEx + "|" + identRegEx + "|" + numRegEx + "|" + symbolRegEx  + "|" + stringRegEx ;
+    }
 
 	static {
 		keywords.put("print", PRINT);
@@ -58,9 +58,13 @@ public class StreamTokenizer implements Tokenizer {
 		symbols.put("!", NOT);
 		symbols.put("&&", AND);
 		symbols.put("==", EQ);
-		//symbols.put();
 	}
 
+	// AUX-BASE FUNCT \\
+	private int base(){
+		return tokenString.indexOf('x')>=0 || tokenString.indexOf('X')>=0 ? 16 : 10;
+	}
+	
 	public StreamTokenizer(Reader reader) {
 		scanner = new StreamScanner(regEx, reader);
 	}
@@ -75,31 +79,29 @@ public class StreamTokenizer implements Tokenizer {
 				boolValue = Boolean.parseBoolean(tokenString);
 			return;
 		}
-		
 		if (scanner.group(NUM.ordinal()) != null) { // NUM
 			tokenType = NUM;
-			//intValue = Integer.parseInt(tokenString);
+			
+			// old version \\
+			// intValue = Integer.parseInt(tokenString); \\
+			
 			intValue = Integer.parseInt(base()==16?tokenString.substring(2) : tokenString, base());
+			return;
+		}
+		if (scanner.group(STRING.ordinal()) != null) { // STRING
+			tokenType = STRING;
+			isString = tokenString.substring(1,tokenString.length()-1);
 			return;
 		}
 		if (scanner.group(SKIP.ordinal()) != null) { // SKIP
 			tokenType = SKIP;
 			return;
 		}
-		if(scanner.group(STRING.ordinal()) != null) {
-			tokenType = STRING;
-			return;
-		}
-		
 		tokenType = symbols.get(tokenString); // a symbol
 		if (tokenType == null)
 			throw new AssertionError("Fatal error");
 	}
 
-	private int base(){
-		return tokenString.indexOf('x')>=0 || tokenString.indexOf('X')>=0 ? 16 : 10;
-}
-	
 	@Override
 	public TokenType next() throws TokenizerException {
 		do {
@@ -128,15 +130,13 @@ public class StreamTokenizer implements Tokenizer {
 		if (tokenType != ttype)
 			throw new IllegalStateException();
 	}
-	
-	
-	public String stringValue() {
+
+	@Override
+	public String isString() {
 		checkValidToken(STRING);
-		return stringValue;
+		return isString;
 	}
-
-
-
+	
 	@Override
 	public String tokenString() {
 		checkValidToken();
@@ -174,5 +174,4 @@ public class StreamTokenizer implements Tokenizer {
 			throw new TokenizerException(e);
 		}
 	}
-
 }

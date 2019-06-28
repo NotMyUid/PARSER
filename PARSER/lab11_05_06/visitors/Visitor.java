@@ -7,6 +7,9 @@ import lab11_05_06.parser.ast.Stmt;
 import lab11_05_06.parser.ast.StmtSeq;
 
 public interface Visitor<T> {
+	
+	T visitStringLiteral(String value);
+	
 	T visitAdd(Exp left, Exp right);
 
 	T visitAssignStmt(Ident ident, Exp exp);

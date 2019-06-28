@@ -87,6 +87,11 @@ public class TypeCheck implements Visitor<Type> {
 	// static semantics of expressions; a type is returned by the visitor
 
 	@Override
+	public Type visitStringLiteral(String value) {
+		return STRING;
+	}
+	
+	@Override
 	public Type visitAdd(Exp left, Exp right) {
 		checkBinOp(left, right, INT);
 		return INT;

@@ -177,15 +177,16 @@ public class MyParser implements Parser {
 		case SND:
 			return parseSnd();
 		case STRING:
-			return (Exp) parseString();
+			return parseString();
 		}
 	}
+	
 	private StringLiteral parseString() throws ParserException {
-		String name = tokenizer.stringValue();
-		consume(STRING); // or tryNext();
-		return new StringLiteral(name);
-		
+		String val = tokenizer.isString();
+		consume(STRING);
+		return new StringLiteral(val);
 	}
+	
 	private IntLiteral parseNum() throws ParserException {
 		int val = tokenizer.intValue();
 		consume(NUM); // or tryNext();

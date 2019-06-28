@@ -142,6 +142,11 @@ public class Eval implements Visitor<Value> {
 	}
 
 	@Override
+	public Value visitStringLiteral(String value) {
+		return new StringValue(value);
+	}
+	
+	@Override
 	public Value visitBoolLiteral(boolean value) {
 		return new BoolValue(value);
 	}
