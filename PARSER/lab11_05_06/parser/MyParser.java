@@ -178,6 +178,8 @@ public class MyParser implements Parser {
 			return parseSnd();
 		case STRING:
 			return parseString();
+		case OPEN_BLOCK:
+			return parseSet();
 		}
 	}
 	
