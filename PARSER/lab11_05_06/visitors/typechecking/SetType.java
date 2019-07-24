@@ -5,22 +5,17 @@ import static java.util.Objects.requireNonNull;
 public class SetType implements Type {
 
 	private final Type fstType;
-	private final Type sndType;
 
 	public static final String TYPE_NAME = "SET";
 
-	public SetType(Type fstType, Type sndType) {
+	public SetType(Type fstType) {
 		this.fstType = requireNonNull(fstType);
-		this.sndType = requireNonNull(sndType);
 	}
 
 	public Type getFstType() {
 		return fstType;
 	}
 
-	public Type getSndType() {
-		return sndType;
-	}
 
 	@Override
 	public final boolean equals(Object obj) {
@@ -29,17 +24,17 @@ public class SetType implements Type {
 		if (!(obj instanceof PairType))
 			return false;
 		SetType pt = (SetType) obj;
-		return fstType.equals(pt.fstType) && sndType.equals(pt.sndType);
+		return fstType.equals(pt.fstType);
 	}
 
 	@Override
 	public int hashCode() {
-		return fstType.hashCode() + 31 * sndType.hashCode();
+		return fstType.hashCode();
 	}
 
 	@Override
 	public String toString() {
-		return "(" + fstType + "*" + sndType + ")";
+		return "(" + fstType + ")";
 	}
 
 }

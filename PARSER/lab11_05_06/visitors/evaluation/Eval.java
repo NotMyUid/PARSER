@@ -105,6 +105,13 @@ public class Eval implements Visitor<Value> {
 		rest.accept(this);
 		return null;
 	}
+	
+	@Override
+	public Value visitExpSeq(Exp exp, ExpSeq expseq) {
+		exp.accept(this);
+		expseq.accept(this);
+		return null;
+	}
 
 	@Override
 	public Value visitSingleExp(Exp exp) {
@@ -121,6 +128,16 @@ public class Eval implements Visitor<Value> {
 
 
 	// dynamic semantics of expressions; a value is returned by the visitor
+	
+	@Override
+	public Value visitInts(ExpSeq right, ExpSeq right) {
+		return new SetValue();
+	}
+	
+	@Override
+	public Value visitCat(Exp left,Exp right) {
+		return new StringValue(left.accept(this).toString() + right.accept(this).toString());
+	}
 
 	@Override
 	public Value visitAdd(Exp left, Exp right) {
@@ -173,8 +190,8 @@ public class Eval implements Visitor<Value> {
 	}
 	
 	@Override
-	public Value visitSet(Exp left, ExpSeq right) {
-		return new SetValue(left.accept(this), right.accept(this));
+	public Value visitSet(ExpSeq right) {
+		return new SetValue(right.accept(this));
 	}
 	
 	@Override
@@ -211,5 +228,6 @@ public class Eval implements Visitor<Value> {
 			e.printStackTrace();
 		}
 	}
+
 
 }

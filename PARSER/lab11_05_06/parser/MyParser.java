@@ -10,7 +10,11 @@ Prog ::= StmtSeq 'EOF'
  StmtSeq ::= Stmt (';' StmtSeq)?
  Stmt ::= 'let'? ID '=' Exp | 'print' Exp |  'if' '(' Exp ')' '{' StmtSeq '}' ('else' '{' StmtSeq '}')? 
  Exp ::= Eq ('&&' Eq)* 
- Eq ::= Add ('==' Add)*
+ Eq ::= In ('==' In)*
+ 						In ::= Unio ('in' Unio)*
+ 						Unio ::= Ints ('\/' Ints)*
+ 						Ints ::= Cat ('/\' Cat)*
+ 	Cat ::= Add ('^' Add)*
  Add ::= Mul ('+' Mul)*
  Mul::= Atom ('*' Atom)*
  Atom ::= '[' Exp ',' Exp ']' | 'fst' Atom | 'snd' Atom | '-' Atom | '!' Atom | BOOL | NUM | ID | '(' Exp ')'
@@ -67,7 +71,7 @@ public class MyParser implements Parser {
 	
 	private ExpSeq parseExpSeq() throws ParserException {
 		Exp exp = parseExp();
-		if (tokenizer.tokenType() == STMT_SEP) {
+		if (tokenizer.tokenType() == EXP_SEP) {
 			tryNext();
 			return new MoreExp(exp, parseExpSeq());
 		}
@@ -137,10 +141,28 @@ public class MyParser implements Parser {
 	}
 
 	private Exp parseEq() throws ParserException {
-		Exp exp = parseAdd();
+		Exp exp = parseInts();
 		while (tokenizer.tokenType() == EQ) {
 			tryNext();
-			exp = new Eq(exp, parseAdd());
+			exp = new Eq(exp, parseInts());
+		}
+		return exp;
+	}
+	
+	private Exp parseInts() throws ParserException {
+		Exp exp = parseCat();
+		while (tokenizer.tokenType() == INTS) {
+			tryNext();
+			exp = new Ints(exp, parseInts());
+		}
+		return exp;
+	}
+	
+	private Exp parseCat() throws ParserException {
+		Exp exp = parseAdd();
+		while (tokenizer.tokenType() == CAT) {
+			tryNext();
+			exp = new Cat(exp, parseAdd());
 		}
 		return exp;
 	}
@@ -194,11 +216,9 @@ public class MyParser implements Parser {
 	
 	private Set parseSet() throws ParserException {
 		consume(OPEN_BLOCK); // or tryNext();
-		Exp left = parseExp();
-		consume(EXP_SEP);
-		ExpSeq right = parseExpSeq();
+		ExpSeq expseq = parseExpSeq();
 		consume(CLOSE_BLOCK);
-		return new Set(left, right);
+		return new Set(expseq);
 	}
 	
 	private StringLiteral parseString() throws ParserException {

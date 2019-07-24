@@ -5,19 +5,13 @@ import static java.util.Objects.requireNonNull;
 public class SetValue implements Value {
 
 	private final Value fstVal;
-	private final Value sndVal;
 
-	public SetValue(Value fstVal, Value sndVal) {
+	public SetValue(Value fstVal) {
 		this.fstVal = requireNonNull(fstVal);
-		this.sndVal = requireNonNull(sndVal);
 	}
 
 	public Value getFstVal() {
 		return fstVal;
-	}
-
-	public Value getSndVal() {
-		return sndVal;
 	}
 
 	@Override
@@ -27,12 +21,12 @@ public class SetValue implements Value {
 
 	@Override
 	public String toString() {
-		return "{" + fstVal + ", " + sndVal + "}";
+		return "{" + fstVal +  "}";
 	}
 
 	@Override
 	public int hashCode() {
-		return 31 * fstVal.hashCode() + sndVal.hashCode();
+		return 31 * fstVal.hashCode();
 	}
 
 	@Override
@@ -42,6 +36,6 @@ public class SetValue implements Value {
 		if (!(obj instanceof SetValue))
 			return false;
 		SetValue op = (SetValue) obj;
-		return fstVal.equals(op.fstVal) && sndVal.equals(op.sndVal);
+		return fstVal.equals(op.fstVal);
 	}
 }

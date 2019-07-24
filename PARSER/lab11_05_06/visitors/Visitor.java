@@ -2,11 +2,17 @@ package lab11_05_06.visitors;
 
 import lab11_05_06.parser.ast.Block;
 import lab11_05_06.parser.ast.Exp;
+import lab11_05_06.parser.ast.ExpSeq;
 import lab11_05_06.parser.ast.Ident;
 import lab11_05_06.parser.ast.Stmt;
 import lab11_05_06.parser.ast.StmtSeq;
 
 public interface Visitor<T> {
+	
+	T visitInts(ExpSeq right);
+
+	T visitCat(Exp left, Exp right);
+	
 	T visitAdd(Exp left, Exp right);
 
 	T visitAssignStmt(Ident ident, Exp exp);
@@ -16,6 +22,8 @@ public interface Visitor<T> {
 	T visitEq(Exp left, Exp right);
 
 	T visitMoreStmt(Stmt first, StmtSeq rest);
+	
+	T visitMoreExp(Exp first, ExpSeq second);
 
 	T visitMul(Exp left, Exp right);
 
@@ -46,16 +54,12 @@ public interface Visitor<T> {
 	T visitFst(Exp exp);
 
 	T visitSnd(Exp exp);
-	 
-	T visitIns(Exp left, Exp right);
-	
-	T visitUni(Exp left, Exp right);
-	
-	T visitCat(Exp left, Exp right);
-	
-	T visitIns(Exp left, Exp right);
 	
 	T visitExpSeq(Exp exp, ExpSeq seq);
 	
-	T visitCard(Exp exp);
+	T visitSet(ExpSeq seq);
+	
+	T visitStringLiteral(String string);
+	
+	T visitSingleExp(Exp exp);
 }
