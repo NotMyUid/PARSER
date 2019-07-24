@@ -9,6 +9,7 @@ import lab11_05_06.parser.ast.*;
 Prog ::= StmtSeq 'EOF'
  StmtSeq ::= Stmt (';' StmtSeq)?
  Stmt ::= 'let'? ID '=' Exp | 'print' Exp |  'if' '(' Exp ')' '{' StmtSeq '}' ('else' '{' StmtSeq '}')? 
+ 						ExpSeq ::= Exp (, ExpSeq)?
  Exp ::= Eq ('&&' Eq)* 
  Eq ::= In ('==' In)*
  						In ::= Unio ('in' Unio)*
@@ -153,7 +154,7 @@ public class MyParser implements Parser {
 		Exp exp = parseCat();
 		while (tokenizer.tokenType() == INTS) {
 			tryNext();
-			exp = new Ints(exp, parseInts());
+			exp = new Ints(exp, parseCat());
 		}
 		return exp;
 	}

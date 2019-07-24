@@ -9,7 +9,7 @@ import lab11_05_06.parser.ast.StmtSeq;
 
 public interface Visitor<T> {
 	
-	T visitInts(ExpSeq right);
+	T visitInts(Exp left, Exp right);
 
 	T visitCat(Exp left, Exp right);
 	

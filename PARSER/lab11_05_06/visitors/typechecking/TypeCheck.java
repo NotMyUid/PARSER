@@ -112,9 +112,10 @@ public class TypeCheck implements Visitor<Type> {
 	}
 	
 	@Override
-	public Type visitInts(ExpSeq left, ExpSeq right) {;
-		return visitFst(left); 
-	}
+	public Type visitInts(Exp left, Exp right) {;
+		checkBinOp(left, right, visitFst(left));
+		return visitFst(left);
+}
 	
 	@Override
 	public Type visitCat(Exp left, Exp right) {

@@ -130,8 +130,8 @@ public class Eval implements Visitor<Value> {
 	// dynamic semantics of expressions; a value is returned by the visitor
 	
 	@Override
-	public Value visitInts(ExpSeq right, ExpSeq right) {
-		return new SetValue();
+	public Value visitInts(Exp left, Exp right) {
+		return new SetValue(right.accept(this));
 	}
 	
 	@Override

@@ -59,7 +59,7 @@ public class StreamTokenizer implements Tokenizer {
 		symbols.put("&&", AND);
 		symbols.put("==", EQ);
 		symbols.put("^", CAT);
-		symbols.put("\\\\/\\\\\\\\", INTS);
+		symbols.put("\\/\\\\", INTS);
 	}
 
 	// AUX-BASE FUNCT \\
