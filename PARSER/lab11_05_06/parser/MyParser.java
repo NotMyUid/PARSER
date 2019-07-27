@@ -10,7 +10,7 @@ Prog ::= StmtSeq 'EOF'
  StmtSeq ::= Stmt (';' StmtSeq)?
  Stmt ::= 'let'? ID '=' Exp | 'print' Exp |  'if' '(' Exp ')' '{' StmtSeq '}' ('else' '{' StmtSeq '}')? 
  						ExpSeq ::= Exp (, ExpSeq)?
- Exp ::= Eq ('&&' Eq)* 
+ Exp ::= Eq ('&&' Eq)*
  Eq ::= In ('==' In)*
  						In ::= Unio ('in' Unio)*
  						Unio ::= Ints ('\/' Ints)*
