@@ -27,8 +27,8 @@ public class StreamTokenizer implements Tokenizer {
         final String identRegEx = "([a-zA-Z][a-zA-Z0-9]*)"; // group 2
         final String numRegEx = "(0[xX][0-9a-fA-F]+|[0-9]+)"; // group 3 
         final String stringRegEx = "(\"[0-9a-zA-Z\\\"]*\")";
-        final String symbolRegEx = "\\+|\\*|==|=|\\(|\\)|\\[|\\]|;|,|\\{|\\}|-|!|&&|\\^|/\\";
-        regEx = skipRegEx + "|" + identRegEx + "|" + numRegEx + "|" + symbolRegEx  + "|" + stringRegEx ;
+        final String symbolRegEx = "(\\+|\\*|==|=|\\^|/\\\\|\\\\/|#|\\(|\\)|\\[|\\]|;|,|\\{|\\}|-|!|&&)";
+        regEx = skipRegEx + "|" + identRegEx + "|" + numRegEx  + "|" + stringRegEx + "|" + symbolRegEx ;
     }
 
 	static {
@@ -40,12 +40,16 @@ public class StreamTokenizer implements Tokenizer {
 		keywords.put("else", ELSE);
 		keywords.put("fst", FST);
 		keywords.put("snd", SND);
+		keywords.put("in", IN);
 	}
 
 	static {
 		symbols.put("+", PLUS);
 		symbols.put("*", TIMES);
 		symbols.put("=", ASSIGN);
+		symbols.put("==", EQ);
+		symbols.put("^", CAT);
+		symbols.put("/\\", INTS);
 		symbols.put("(", OPEN_PAR);
 		symbols.put(")", CLOSE_PAR);
 		symbols.put("[", OPEN_PAIR);
@@ -57,9 +61,9 @@ public class StreamTokenizer implements Tokenizer {
 		symbols.put("-", MINUS);
 		symbols.put("!", NOT);
 		symbols.put("&&", AND);
-		symbols.put("==", EQ);
-		symbols.put("^", CAT);
-		symbols.put("/\\", INTS);
+		symbols.put("\\/", UNIO);
+		symbols.put("#", CARD);
+		
 	}
 
 	// AUX-BASE FUNCT \\

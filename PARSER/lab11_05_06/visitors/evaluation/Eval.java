@@ -131,12 +131,12 @@ public class Eval implements Visitor<Value> {
 	
 	@Override
 	public Value visitInts(Exp left, Exp right) {
-		return new SetValue(right.accept(this));
+		return new SetValue();//right.accept(this));
 	}
 	
 	@Override
 	public Value visitCat(Exp left,Exp right) {
-		return new StringValue(left.accept(this).toString() + right.accept(this).toString());
+		return new StringValue(left.accept(this).asString() + right.accept(this).asString());
 	}
 
 	@Override
@@ -191,7 +191,7 @@ public class Eval implements Visitor<Value> {
 	
 	@Override
 	public Value visitSet(ExpSeq right) {
-		return new SetValue(right.accept(this));
+		return new SetValue();
 	}
 	
 	@Override
