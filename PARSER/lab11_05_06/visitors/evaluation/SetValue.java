@@ -1,13 +1,20 @@
 package lab11_05_06.visitors.evaluation;
 
 import static java.util.Objects.requireNonNull;
+import java.util.HashSet
+
+import sun.awt.SunHints.Value;<E>;
+
+
 
 public class SetValue implements Value {
 
-	private final Value fstVal;
+	private HashSet<Value> S = new HashSet<Value>;
 
-	public SetValue(Value fstVal) {
-		this.fstVal = requireNonNull(fstVal);
+	public SetValue(Value Val) {
+		S.add(requireNonNull(Val);
+	}
+	public SetValue() {
 	}
 
 	public Value getFstVal() {
