@@ -14,11 +14,18 @@ public class SetValue implements Value {
 	
 	public SetValue(HashSet<Value> Val) {
 		for(Value v: Val)
-		S.add(requireNonNull(v));
+			this.S.add(requireNonNull(v));
 	}
 
-	public Value getVal() {
-		return null ;
+	public Value getVal(int n) {
+		int check=0;
+		Value val=null;
+		for(Value v: S) {
+				if(check<n)
+					val=v;
+					++check;
+			}
+		return val ;
 	}
 
 	@Override
@@ -28,12 +35,26 @@ public class SetValue implements Value {
 
 	@Override
 	public String toString() {
-		return "{" +   "}";
+		String str="{";
+		for(Value v: S) {
+			str=str+" + "+ v;
+		}
+		str=str+" }";
+		return str;
 	}
 
 	@Override
 	public int hashCode() {
-		return 31 ;
+		int hsval=0;
+		int first=0;
+		for(Value v: S) {
+			if(first==0) {
+			hsval=hsval+31*v.hashCode();
+			++first;
+			}
+			hsval=hsval+v.hashCode();
+		}
+		return hsval;
 	}
 
 	@Override
@@ -43,6 +64,6 @@ public class SetValue implements Value {
 		if (!(obj instanceof SetValue))
 			return false;
 		SetValue op = (SetValue) obj;
-		return true;
+		return S.equals(op.S);
 	}
 }
