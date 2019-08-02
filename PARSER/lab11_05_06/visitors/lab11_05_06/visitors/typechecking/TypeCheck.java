@@ -2,6 +2,7 @@ package lab11_05_06.visitors.typechecking;
 
 import static lab11_05_06.visitors.typechecking.PrimtType.*;
 
+import java.util.HashSet;
 
 import lab11_05_06.environments.EnvironmentException;
 import lab11_05_06.environments.GenEnvironment;
@@ -174,7 +175,7 @@ public class TypeCheck implements Visitor<Type> {
 
 	@Override
 	public Type visitSet(ExpSeq right) {
-		return new SetType(right.accept(this));
+		return new SetType((HashSet<Type>) right.accept(this));
 	}
 	
 	

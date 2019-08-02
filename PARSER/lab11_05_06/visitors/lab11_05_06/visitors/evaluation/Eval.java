@@ -39,7 +39,6 @@ public class Eval implements Visitor<Value> {
 	}
 
 	// dynamic semantics for programs; no value returned by the visitor
-
 	@Override
 	public Value visitProg(StmtSeq stmtSeq) {
 		try {
