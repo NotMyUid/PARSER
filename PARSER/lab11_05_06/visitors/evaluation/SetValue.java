@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.HashSet;
 
 
-
 public class SetValue implements Value {
 
 	private HashSet<Value> S = new HashSet<Value>();
@@ -42,7 +41,6 @@ public class SetValue implements Value {
 			return true;
 		if (!(obj instanceof SetValue))
 			return false;
-		SetValue op = (SetValue) obj;
-		return true;
+		return S.equals(((SetValue) obj).S);
 	}
 }
