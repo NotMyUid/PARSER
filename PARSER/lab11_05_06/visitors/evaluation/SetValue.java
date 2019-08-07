@@ -2,18 +2,25 @@ package lab11_05_06.visitors.evaluation;
 
 import static java.util.Objects.requireNonNull;
 import java.util.HashSet;
+import java.util.Iterator;
 
 
-public class SetValue implements Value {
+
+public class SetValue implements Value, Iterable<Value> {
 
 	private HashSet<Value> S = new HashSet<Value>();
 	
 	public SetValue() {
 	}
 	
-	public SetValue(HashSet<Value> Val) {
-		for(Value v: Val)
+	public SetValue(SetValue Val) {
+		for(Value v : Val)
 		S.add(requireNonNull(v));
+	}
+	
+	public SetValue(Value val, SetValue rest) {
+		this(rest);
+		S.add(requireNonNull(val));
 	}
 
 	public Value getVal() {
@@ -42,5 +49,10 @@ public class SetValue implements Value {
 		if (!(obj instanceof SetValue))
 			return false;
 		return S.equals(((SetValue) obj).S);
+	}
+
+	@Override
+	public Iterator<Value> iterator() {
+		return S.iterator();
 	}
 }

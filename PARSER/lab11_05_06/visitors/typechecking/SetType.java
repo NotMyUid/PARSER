@@ -29,7 +29,7 @@ public class SetType implements Type {
 
 	@Override
 	public int hashCode() {
-		return fstType.hashCode();
+		return 31 * fstType.hashCode();
 	}
 
 	@Override

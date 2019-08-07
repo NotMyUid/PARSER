@@ -22,6 +22,7 @@ import lab11_05_06.visitors.Visitor;
 import lab11_05_06.visitors.typechecking.TypeCheck;
 import lab11_05_06.visitors.typechecking.TypecheckerException;
 
+
 import static java.lang.System.err;
 import static java.util.Objects.requireNonNull;
 
@@ -105,7 +106,7 @@ public class Eval implements Visitor<Value> {
 		rest.accept(this);
 		return null;
 	}
-	
+	/*
 	@Override
 	public Value visitExpSeq(Exp exp, ExpSeq expseq) {
 		exp.accept(this);
@@ -125,8 +126,18 @@ public class Eval implements Visitor<Value> {
 		rest.accept(this);
 		return null;
 	}
+	
 
+*/
+	@Override
+	public Value visitSingleExp(Exp exp) {
+		return new SetValue(exp.accept(this), new SetValue());
+	}
 
+	@Override
+	public Value visitMoreExp(Exp first, ExpSeq rest) {
+		return new SetValue(first.accept(this), rest.accept(this).asSet());
+	}
 	// dynamic semantics of expressions; a value is returned by the visitor
 	
 	@Override

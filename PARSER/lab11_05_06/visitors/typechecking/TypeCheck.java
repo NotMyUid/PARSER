@@ -83,27 +83,17 @@ public class TypeCheck implements Visitor<Type> {
 		rest.accept(this);
 		return null;
 	}
-	
+
 	@Override
 	public Type visitSingleExp(Exp exp) {
-		exp.accept(this);
-		return null;
-	}
-	
-	@Override
-	public Type visitMoreExp(Exp first, ExpSeq rest) {
-		first.accept(this);
-		rest.accept(this);
-		return null;
-	}
-	
-	@Override
-	public Type visitExpSeq(Exp exp,ExpSeq expseq) {
-		exp.accept(this);
-		expseq.accept(this);
-		return null;
+		return exp.accept(this);
 	}
 
+	@Override
+	public Type visitMoreExp(Exp first, ExpSeq rest) {
+		Type found = first.accept(this);
+		return found.checkEqual(rest.accept(this));
+	}
 	// static semantics of expressions; a type is returned by the visitor
 
 	@Override
@@ -173,8 +163,8 @@ public class TypeCheck implements Visitor<Type> {
 	}
 
 	@Override
-	public Type visitSet(ExpSeq right) {
-		return new SetType(right.accept(this));
+	public Type visitSet(ExpSeq exps) {
+		return new SetType(exps.accept(this));
 	}
 	
 	

@@ -55,7 +55,7 @@ public interface Visitor<T> {
 
 	T visitSnd(Exp exp);
 	
-	T visitExpSeq(Exp exp, ExpSeq seq);
+	//T visitExpSeq(Exp exp, ExpSeq seq);
 	
 	T visitSet(ExpSeq seq);
 	
