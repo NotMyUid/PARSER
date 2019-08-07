@@ -23,10 +23,7 @@ public class SetValue implements Value, Iterable<Value> {
 		S.add(requireNonNull(val));
 	}
 
-	public Value getVal() {
-		return null ;
-	}
-
+	
 	@Override
 	public SetValue asSet() {
 		return this;

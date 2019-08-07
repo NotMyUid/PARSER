@@ -106,29 +106,7 @@ public class Eval implements Visitor<Value> {
 		rest.accept(this);
 		return null;
 	}
-	/*
-	@Override
-	public Value visitExpSeq(Exp exp, ExpSeq expseq) {
-		exp.accept(this);
-		expseq.accept(this);
-		return null;
-	}
-
-	@Override
-	public Value visitSingleExp(Exp exp) {
-		exp.accept(this);
-		return null;
-	}
 	
-	@Override
-	public Value visitMoreExp(Exp first, ExpSeq rest) {
-		first.accept(this);
-		rest.accept(this);
-		return null;
-	}
-	
-
-*/
 	@Override
 	public Value visitSingleExp(Exp exp) {
 		return new SetValue(exp.accept(this), new SetValue());
@@ -201,8 +179,8 @@ public class Eval implements Visitor<Value> {
 	}
 	
 	@Override
-	public Value visitSet(ExpSeq right) {
-		return new SetValue();
+	public Value visitSet(ExpSeq exps) {
+		return exps.accept(this);
 	}
 	
 	@Override
