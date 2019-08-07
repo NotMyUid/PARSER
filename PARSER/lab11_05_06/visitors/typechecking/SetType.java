@@ -34,7 +34,7 @@ public class SetType implements Type {
 
 	@Override
 	public String toString() {
-		return "(" + fstType + ")";
+		return fstType + " " + TYPE_NAME;
 	}
 
 }

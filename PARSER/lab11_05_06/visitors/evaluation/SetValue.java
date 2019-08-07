@@ -27,12 +27,12 @@ public class SetValue implements Value {
 
 	@Override
 	public String toString() {
-		return "{" +   "}";
+		return S.toString();
 	}
 
 	@Override
 	public int hashCode() {
-		return 31 ;
+		return S.hashCode();
 	}
 
 	@Override
