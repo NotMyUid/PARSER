@@ -22,7 +22,18 @@ public class SetValue implements Value, Iterable<Value> {
 		this(rest);
 		S.add(requireNonNull(val));
 	}
+	
+	public SetValue union(SetValue fstval, SetValue sndval) {
+		SetValue prov = new SetValue(fstval);
+		prov.S.addAll(sndval.S);
+		return prov;
+	}
 
+	public SetValue retain(SetValue fstval, SetValue sndval) {
+		SetValue prov = new SetValue(fstval);
+		prov.S.retainAll(sndval.S);
+		return prov;
+	}
 	
 	@Override
 	public SetValue asSet() {
@@ -31,7 +42,14 @@ public class SetValue implements Value, Iterable<Value> {
 
 	@Override
 	public String toString() {
-		return S.toString();
+		String str="";
+		Iterator<Value> itr = S.iterator();  
+        while (itr.hasNext()) {  
+             str+=itr.next();
+             str+=", ";}
+        if (str!="")
+        str=str.substring(0, str.length() - 2);
+             return "{" + str + "}";             
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public class SetType implements Type {
 	public final boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!(obj instanceof PairType))
+		if (!(obj instanceof SetType))
 			return false;
 		SetType pt = (SetType) obj;
 		return fstType.equals(pt.fstType);

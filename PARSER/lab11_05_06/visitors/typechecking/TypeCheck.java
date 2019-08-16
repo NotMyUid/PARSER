@@ -102,9 +102,17 @@ public class TypeCheck implements Visitor<Type> {
 	}
 	
 	@Override
-	public Type visitInts(Exp left, Exp right) {;
-		checkBinOp(left, right, visitFst(left));
-		return visitFst(left);
+	public Type visitUnio(Exp left, Exp right) {
+		Type t = left.accept(this);
+		checkBinOp(left, right, t);
+		return t;
+}
+	
+	@Override
+	public Type visitInts(Exp left, Exp right) {
+		Type t = left.accept(this);
+		checkBinOp(left, right, t);
+		return t;
 }
 	
 	@Override

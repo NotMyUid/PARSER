@@ -9,6 +9,8 @@ import lab11_05_06.parser.ast.StmtSeq;
 
 public interface Visitor<T> {
 	
+	T visitUnio(Exp left, Exp right);
+	
 	T visitInts(Exp left, Exp right);
 
 	T visitCat(Exp left, Exp right);
@@ -54,9 +56,7 @@ public interface Visitor<T> {
 	T visitFst(Exp exp);
 
 	T visitSnd(Exp exp);
-	
-	//T visitExpSeq(Exp exp, ExpSeq seq);
-	
+		
 	T visitSet(ExpSeq seq);
 	
 	T visitStringLiteral(String string);
