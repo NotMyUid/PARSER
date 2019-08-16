@@ -16,6 +16,8 @@ public class TypeCheck implements Visitor<Type> {
 		type.checkEqual(left.accept(this));
 		type.checkEqual(right.accept(this));
 	}
+	
+	
 
 	// static semantics for programs; no value returned by the visitor
 
@@ -100,6 +102,18 @@ public class TypeCheck implements Visitor<Type> {
 	public Type visitStringLiteral(String value) {
 		return STRING;
 	}
+	
+	@Override
+	public Type visitIn(Exp left, Exp right) {
+		
+		Type t = new SetType(right.accept(this));
+		
+		if (!left.accept(this).equals(t.keepFst()))
+			throw new TypecheckerException(left.accept(this).toString(), t.keepFst().toString());
+		//if(!t.equals(left.accept(this)))
+			//throw new TypecheckerException(left.toString(), right.toString());
+		return BOOL;
+}
 	
 	@Override
 	public Type visitUnio(Exp left, Exp right) {

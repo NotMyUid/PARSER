@@ -119,6 +119,11 @@ public class Eval implements Visitor<Value> {
 	// dynamic semantics of expressions; a value is returned by the visitor
 	
 	@Override
+	public Value visitIn(Exp left, Exp right) {
+		return new BoolValue(right.accept(this).asSet().isIn(left.accept(this)));
+	}
+	
+	@Override
 	public Value visitUnio(Exp left, Exp right) {
 		SetValue prov = new SetValue(left.accept(this).asSet());
 		prov = prov.union(left.accept(this).asSet(), right.accept(this).asSet());

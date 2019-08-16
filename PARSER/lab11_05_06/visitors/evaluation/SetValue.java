@@ -23,6 +23,10 @@ public class SetValue implements Value, Iterable<Value> {
 		S.add(requireNonNull(val));
 	}
 	
+	public boolean isIn(Value val) {
+		return this.S.contains(val);
+	}
+	
 	public SetValue union(SetValue fstval, SetValue sndval) {
 		SetValue prov = new SetValue(fstval);
 		prov.S.addAll(sndval.S);

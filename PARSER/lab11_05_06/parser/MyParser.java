@@ -142,10 +142,19 @@ public class MyParser implements Parser {
 	}
 
 	private Exp parseEq() throws ParserException {
-		Exp exp = parseUnio();
+		Exp exp = parseIn();
 		while (tokenizer.tokenType() == EQ) {
 			tryNext();
-			exp = new Eq(exp, parseUnio());
+			exp = new Eq(exp, parseIn());
+		}
+		return exp;
+	}
+	
+	private Exp parseIn() throws ParserException {
+		Exp exp = parseUnio();
+		while (tokenizer.tokenType() == IN) {
+			tryNext();
+			exp = new In(exp, parseUnio());
 		}
 		return exp;
 	}
