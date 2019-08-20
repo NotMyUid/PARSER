@@ -27,6 +27,12 @@ public class SetValue implements Value, Iterable<Value> {
 		return this.S.contains(val);
 	}
 	
+	
+	public int number(SetValue set) {
+		return set.S.size();
+	}
+
+	
 	public SetValue union(SetValue fstval, SetValue sndval) {
 		SetValue prov = new SetValue(fstval);
 		prov.S.addAll(sndval.S);

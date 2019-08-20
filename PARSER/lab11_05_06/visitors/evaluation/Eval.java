@@ -119,6 +119,18 @@ public class Eval implements Visitor<Value> {
 	// dynamic semantics of expressions; a value is returned by the visitor
 	
 	@Override
+	public Value visitCard(Exp exp) {
+		String s = exp.accept(this).toString();
+		int i = 0;
+		if(s.startsWith("{")) {
+			SetValue set = exp.accept(this).asSet();
+			i = set.number(set);
+		}
+		else i = s.length();
+		return new IntValue(i);
+	}
+	
+	@Override
 	public Value visitIn(Exp left, Exp right) {
 		return new BoolValue(right.accept(this).asSet().isIn(left.accept(this)));
 	}

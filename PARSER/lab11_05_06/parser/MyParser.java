@@ -17,7 +17,8 @@ Prog ::= StmtSeq 'EOF'
  						Ints ::= Cat ('/\' Cat)*
  	Cat ::= Add ('^' Add)*
  Add ::= Mul ('+' Mul)*
- Mul::= Atom ('*' Atom)*
+ Mul::= Card ('*' Card)*
+ Card::= '#'? Atom
  Atom ::= '[' Exp ',' Exp ']' | 'fst' Atom | 'snd' Atom | '-' Atom | '!' Atom | BOOL | NUM | ID | '(' Exp ')'
 */
 
@@ -230,7 +231,15 @@ public class MyParser implements Parser {
 			return parseString();
 		case OPEN_BLOCK:
 			return parseSet();
+		case CARD:
+			return parseCard();
 		}
+	}
+	
+	private Card parseCard() throws ParserException {
+		consume(CARD); // or tryNext();
+		Exp exp = parseExp();
+		return new Card(exp);
 	}
 	
 	private Set parseSet() throws ParserException {
