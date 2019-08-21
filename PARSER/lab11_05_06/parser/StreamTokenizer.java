@@ -26,7 +26,7 @@ public class StreamTokenizer implements Tokenizer {
         final String skipRegEx = "(\\s+|//.*)"; // group 1
         final String identRegEx = "([a-zA-Z][a-zA-Z0-9]*)"; // group 2
         final String numRegEx = "(0[xX][0-9a-fA-F]+|[0-9]+)"; // group 3 
-        final String stringRegEx = "(\"[\\s0-9a-zA-Z(\\)(\")]*\")";
+        final String stringRegEx = "(\"(?:[^\"\\\\]|\\\\[\"\\\\])*\")";
         final String symbolRegEx = "(\\+|\\*|==|=|\\^|/\\\\|\\\\/|#|\\(|\\)|\\[|\\]|;|,|\\{|\\}|-|!|&&)";
         regEx = skipRegEx + "|" + identRegEx + "|" + numRegEx  + "|" + stringRegEx + "|" + symbolRegEx ;
     }
@@ -97,6 +97,15 @@ public class StreamTokenizer implements Tokenizer {
 		if (scanner.group(STRING.ordinal()) != null) { // STRING
 			tokenType = STRING;
 			isString = tokenString.substring(1,tokenString.length()-1);
+			
+			int i=0;
+			while(i<isString.length()) {
+				if (isString.charAt(i)=='\\' && (isString.charAt(i+1)=='\\' || isString.charAt(i+1)=='\"')){
+					isString=isString.substring(0,i)+isString.substring(i+1);
+				}
+				i++;
+			}
+			
 			return;
 		}
 		if (scanner.group(SKIP.ordinal()) != null) { // SKIP
@@ -181,3 +190,23 @@ public class StreamTokenizer implements Tokenizer {
 		}
 	}
 }
+
+
+
+/*
+let i = "provone galattico \\ \\ \\ \\ \" \" \\";
+print i
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
