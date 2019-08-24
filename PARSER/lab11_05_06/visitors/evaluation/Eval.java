@@ -56,6 +56,16 @@ public class Eval implements Visitor<Value> {
 	// dynamic semantics for statements; no value returned by the visitor
 
 	@Override
+	public Value visitWhileStmt(Exp exp, StmtSeq block) {
+		do{
+			env.enterScope();
+			block.accept(this);
+			env.exitScope();
+        }while(exp.accept(this).asBool());
+		return null;
+	}
+	
+	@Override
 	public Value visitAssignStmt(Ident ident, Exp exp) {
 		env.update(ident, exp.accept(this));
 		return null;
@@ -225,10 +235,22 @@ public class Eval implements Visitor<Value> {
 	}
 
 	public static void main(String[] args) {
-		try (Tokenizer tokenizer = new StreamTokenizer(new InputStreamReader(System.in))) {
+		boolean ntc = false;
+		String in = null;
+		String out = null;
+		for(int i = 0; i<args.length; ++i) {
+			if (args[i].equals("-ntc")) ntc = true;
+			else if (args[i].equals("-i")) in = args[i+1];
+			else if (args[i].equals("-o")) out = args[i+1];
+		}
+			
+				
+		
+		
+		try (Tokenizer tokenizer = new StreamTokenizer(new InputStreamReader(System.in));) {
 			Parser parser = new MyParser(tokenizer);
 			Prog prog = parser.parseProg();
-			prog.accept(new TypeCheck());
+			if(!ntc) prog.accept(new TypeCheck());
 			prog.accept(new Eval());
 		} catch (TokenizerException e) {
 			err.println("Tokenizer error: " + e.getMessage());
@@ -243,6 +265,9 @@ public class Eval implements Visitor<Value> {
 			e.printStackTrace();
 		}
 	}
+	
+
+	
 
 
 }

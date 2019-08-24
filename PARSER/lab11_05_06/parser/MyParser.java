@@ -3,12 +3,13 @@ package lab11_05_06.parser;
 import static java.util.Objects.requireNonNull;
 import static lab11_05_06.parser.TokenType.*;
 
+
 import lab11_05_06.parser.ast.*;
 
 /*
 Prog ::= StmtSeq 'EOF'
  StmtSeq ::= Stmt (';' StmtSeq)?
- Stmt ::= 'let'? ID '=' Exp | 'print' Exp |  'if' '(' Exp ')' '{' StmtSeq '}' ('else' '{' StmtSeq '}')? 
+ Stmt ::= 'let'? ID '=' Exp | 'print' Exp |  'if' '(' Exp ')' '{' StmtSeq '}' ('else' '{' StmtSeq '}')? | while (Exp) {StmtSeq}
  						ExpSeq ::= Exp (, ExpSeq)?
  Exp ::= Eq ('&&' Eq)*
  Eq ::= In ('==' In)*
@@ -19,7 +20,7 @@ Prog ::= StmtSeq 'EOF'
  Add ::= Mul ('+' Mul)*
  Mul::= Card ('*' Card)*
  Card::= '#'? Atom
- Atom ::= '[' Exp ',' Exp ']' | 'fst' Atom | 'snd' Atom | '-' Atom | '!' Atom | BOOL | NUM | ID | '(' Exp ')'
+ Atom ::= '[' Exp ',' Exp ']' | 'fst' Atom | 'snd' Atom | '-' Atom | '!' Atom | BOOL | NUM | ID | '(' Exp ')' 
 */
 
 public class MyParser implements Parser {
@@ -92,7 +93,18 @@ public class MyParser implements Parser {
 			return parseAssignStmt();
 		case IF:
 			return parseIfStmt();
+		case WHILE:
+			return parseWhileStmt();
 		}
+	}
+	
+	private WhileStmt parseWhileStmt() throws ParserException {
+		consume(WHILE);
+		Exp par = parseRoundPar();
+		consume(OPEN_BLOCK);
+		StmtSeq sq = parseStmtSeq();
+		consume(CLOSE_BLOCK);
+		return new WhileStmt(par, sq);
 	}
 
 	private PrintStmt parsePrintStmt() throws ParserException {
@@ -238,8 +250,7 @@ public class MyParser implements Parser {
 	
 	private Card parseCard() throws ParserException {
 		consume(CARD); // or tryNext();
-		Exp exp = parseExp();
-		return new Card(exp);
+		return new Card(parseAtom());
 	}
 	
 	private Set parseSet() throws ParserException {

@@ -66,4 +66,6 @@ public interface Visitor<T> {
 	T visitStringLiteral(String string);
 	
 	T visitSingleExp(Exp exp);
+
+	T visitWhileStmt(Exp exp, StmtSeq block);
 }

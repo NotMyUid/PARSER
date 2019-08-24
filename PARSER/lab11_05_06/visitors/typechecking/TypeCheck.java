@@ -2,7 +2,6 @@ package lab11_05_06.visitors.typechecking;
 
 import static lab11_05_06.visitors.typechecking.PrimtType.*;
 
-
 import lab11_05_06.environments.EnvironmentException;
 import lab11_05_06.environments.GenEnvironment;
 import lab11_05_06.parser.ast.*;
@@ -37,6 +36,15 @@ public class TypeCheck implements Visitor<Type> {
 	}
 
 	// static semantics for statements; no value returned by the visitor
+
+	@Override
+	public Type visitWhileStmt(Exp exp, StmtSeq block) {
+		BOOL.checkEqual(exp.accept(this));
+		env.enterScope();
+		block.accept(this);
+		env.exitScope();
+		return null;
+	}
 
 	@Override
 	public Type visitAssignStmt(Ident ident, Exp exp) {
@@ -117,11 +125,13 @@ public class TypeCheck implements Visitor<Type> {
 	public Type visitIn(Exp left, Exp right) {
 		
 		Type t = right.accept(this).getSetType();
-		checkBinOp(left, right.accept(this).getSetType(), t);
+	//	if(left.accept(this).toString().contains("SET")) 
+			if(left.accept(this).toString().equals(right.accept(this).toString()+" SET"))
+				checkBinOp(left, right.accept(this).getSetType(), t);
+			else
+				throw new TypecheckerException("Found "+left.accept(this).toString()+", expected "+left.accept(this).toString()+" SET");
 		
-		/*if (!left.accept(this).equals(t.keepFst()))
-			throw new TypecheckerException(left.accept(this).toString(), t.keepFst().toString());
-			
+		/*
 			let i = {1} in {1,2,3};
 			print i
 			
@@ -227,4 +237,5 @@ public class TypeCheck implements Visitor<Type> {
 		return exp.accept(this).getSndPairType();
 	}
 
+	
 }

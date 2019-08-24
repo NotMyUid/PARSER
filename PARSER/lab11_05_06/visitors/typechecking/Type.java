@@ -6,20 +6,11 @@ public interface Type {
 			throw new TypecheckerException(found.toString(), toString());
 		return this;
 	}
-	/*default Type keepFst() {
-		if(this.toString().contains("INT"))
-			return INT;
-		if(this.toString().contains("STRING"))
-			return STRING;
-		if(this.toString().contains("BOOL"))
-			return BOOL;
-		return (Type) this;
-		
-	}*/
+
 
 	default void checkIsSetType() throws TypecheckerException {
 		if (!(this instanceof SetType))
-			throw new TypecheckerException(toString(), SetType.TYPE_NAME);
+			throw new TypecheckerException(toString(), toString()+" "+SetType.TYPE_NAME);
 	}
 	
 	default void checkIsPairType() throws TypecheckerException {

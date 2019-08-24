@@ -41,6 +41,7 @@ public class StreamTokenizer implements Tokenizer {
 		keywords.put("fst", FST);
 		keywords.put("snd", SND);
 		keywords.put("in", IN);
+		keywords.put("while", WHILE);
 	}
 
 	static {
