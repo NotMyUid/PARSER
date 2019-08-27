@@ -10,7 +10,7 @@ public interface Type {
 
 	default void checkIsSetType() throws TypecheckerException {
 		if (!(this instanceof SetType))
-			throw new TypecheckerException(toString(), toString()+" "+SetType.TYPE_NAME);
+			throw new TypecheckerException(toString(), toString() + " " + SetType.TYPE_NAME);
 	}
 	
 	default void checkIsPairType() throws TypecheckerException {

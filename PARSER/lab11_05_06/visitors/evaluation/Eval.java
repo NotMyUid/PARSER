@@ -1,5 +1,8 @@
 package lab11_05_06.visitors.evaluation;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
@@ -236,21 +239,22 @@ public class Eval implements Visitor<Value> {
 
 	public static void main(String[] args) {
 		boolean ntc = false;
-		String in = null;
-		String out = null;
+		String in = "";
+		String out = "";
+		
 		for(int i = 0; i<args.length; ++i) {
 			if (args[i].equals("-ntc")) ntc = true;
-			else if (args[i].equals("-i")) in = args[i+1];
-			else if (args[i].equals("-o")) out = args[i+1];
+			else if (args[i].equals("-i")) in = (args[i+1]);
+			else if (args[i].equals("-o")) out = (args[i+1]);
 		}
 			
-				
+	
 		
 		
-		try (Tokenizer tokenizer = new StreamTokenizer(new InputStreamReader(System.in));) {
+		try (Tokenizer tokenizer = new StreamTokenizer(!in.isEmpty() ? new FileReader(in) : new InputStreamReader(System.in));) {
 			Parser parser = new MyParser(tokenizer);
 			Prog prog = parser.parseProg();
-			if(!ntc) prog.accept(new TypeCheck());
+				if(!ntc) prog.accept(new TypeCheck());
 			prog.accept(new Eval());
 		} catch (TokenizerException e) {
 			err.println("Tokenizer error: " + e.getMessage());
@@ -260,6 +264,8 @@ public class Eval implements Visitor<Value> {
 			err.println("Static error: " + e.getMessage());
 		} catch (EvaluatorException e) {
 			err.println("Dynamic error: " + e.getMessage());
+		} catch (IOException e) {
+			err.println("IO error: " + e.getMessage());
 		} catch (Throwable e) {
 			err.println("Unexpected error.");
 			e.printStackTrace();

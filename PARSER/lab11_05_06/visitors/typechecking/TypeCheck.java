@@ -125,12 +125,7 @@ public class TypeCheck implements Visitor<Type> {
 	public Type visitIn(Exp left, Exp right) {
 		
 		Type t = right.accept(this).getSetType();
-	//	if(left.accept(this).toString().contains("SET")) 
-			if(left.accept(this).toString().equals(right.accept(this).toString()+" SET"))
-				checkBinOp(left, right.accept(this).getSetType(), t);
-			else
-				throw new TypecheckerException("Found "+left.accept(this).toString()+", expected "+left.accept(this).toString()+" SET");
-		
+		checkBinOp(left,t,t);
 		/*
 			let i = {1} in {1,2,3};
 			print i
