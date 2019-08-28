@@ -2,7 +2,7 @@
  * 
  */
 /**
- * @author Roberto
+ * @author RobbGar, NotMyUid and iwazaruscof.
  *
  */
 module parser {

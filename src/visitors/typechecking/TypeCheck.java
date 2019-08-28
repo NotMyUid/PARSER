@@ -16,12 +16,6 @@ public class TypeCheck implements Visitor<Type> {
 		type.checkEqual(right.accept(this));
 	}
 	
-	private void checkBinOp(Exp left, Type right, Type type) {
-		type.checkEqual(left.accept(this));
-		type.checkEqual(right);
-	}
-	
-	
 
 	// static semantics for programs; no value returned by the visitor
 
@@ -123,15 +117,15 @@ public class TypeCheck implements Visitor<Type> {
 	
 	@Override
 	public Type visitIn(Exp left, Exp right) {
+		SetType t = new SetType(left.accept(this));
+		t.checkEqual(right.accept(this));
 		
-		Type t = right.accept(this).getSetType();
-		checkBinOp(left,t,t);
 		/*
 			let i = {1} in {1,2,3};
-			print i
+			print i;
 			
 			let p = {1,2} in {1,2};
-			print p
+			print p;
 			
 			let o = {{{1,2}}} in {{{{1,2}}},{{{4,5}}}};
 			print o

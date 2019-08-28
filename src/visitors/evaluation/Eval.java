@@ -1,9 +1,9 @@
 package visitors.evaluation;
 
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 
 import environments.EnvironmentException;
@@ -246,15 +246,19 @@ public class Eval implements Visitor<Value> {
 			else if (args[i].equals("-i")) in = (args[i+1]);
 			else if (args[i].equals("-o")) out = (args[i+1]);
 		}
-			
-	
 		
 		
-		try (Tokenizer tokenizer = new StreamTokenizer(!in.isEmpty() ? new FileReader(in) : new InputStreamReader(System.in));) {
+		try (Tokenizer tokenizer = new StreamTokenizer(!in.isEmpty() ? new FileReader(in) : new InputStreamReader(System.in))) {
 			Parser parser = new MyParser(tokenizer);
 			Prog prog = parser.parseProg();
-				if(!ntc) prog.accept(new TypeCheck());
-			prog.accept(new Eval());
+			if(!ntc) prog.accept(new TypeCheck());
+			if (!out.isEmpty()) {
+					PrintStream fileOut = new PrintStream(out);
+					System.setOut(fileOut);
+					prog.accept(new Eval());
+			}
+			
+			else prog.accept(new Eval());
 		} catch (TokenizerException e) {
 			err.println("Tokenizer error: " + e.getMessage());
 		} catch (ParserException e) {

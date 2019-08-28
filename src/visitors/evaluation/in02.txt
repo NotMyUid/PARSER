@@ -1,2 +1,0 @@
-// Static error: Found INT, expected INT SET
-print 1 in 1
