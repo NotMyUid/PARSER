@@ -112,6 +112,11 @@ public class TypeCheck implements Visitor<Type> {
 	
 	@Override
 	public Type visitCard(Exp exp) {
+		if(!STRING.equals(exp.accept(this))) {
+			Type t = exp.accept(this);
+			t.checkIsSetOrStringType();
+		}
+		
 		return INT;
 	}
 	
