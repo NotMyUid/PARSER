@@ -1,5 +1,8 @@
 package visitors.typechecking;
 
+import visitors.evaluation.SetValue;
+import visitors.evaluation.StringValue;
+
 public interface Type {
 	default Type checkEqual(Type found) throws TypecheckerException {
 		if (!equals(found))
@@ -7,12 +10,27 @@ public interface Type {
 		return this;
 	}
 	
+	default void checkIsSetOrStringType() throws TypecheckerException {
+		if (!(this instanceof SetType))
+			throw new TypecheckerException(toString(), SetType.TYPE_NAME + " or " + PrimtType.STRING);
+	}
+	
+	
+
+	default void checkIsSetType() throws TypecheckerException {
+		if (!(this instanceof SetType))
+			throw new TypecheckerException(toString(), toString() + " " + SetType.TYPE_NAME);
+	}
 	
 	default void checkIsPairType() throws TypecheckerException {
 		if (!(this instanceof PairType))
 			throw new TypecheckerException(toString(), PairType.TYPE_NAME);
 	}
 
+	default Type getSetType() throws TypecheckerException {
+		checkIsSetType();
+		return ((SetType) this).getFstType();
+	}
 	
 	default Type getFstPairType() throws TypecheckerException {
 		checkIsPairType();
