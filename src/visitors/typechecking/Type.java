@@ -1,7 +1,6 @@
 package visitors.typechecking;
 
-import visitors.evaluation.SetValue;
-import visitors.evaluation.StringValue;
+
 
 public interface Type {
 	default Type checkEqual(Type found) throws TypecheckerException {
@@ -12,7 +11,7 @@ public interface Type {
 	
 	default void checkIsSetOrStringType() throws TypecheckerException {
 		if (!(this instanceof SetType))
-			throw new TypecheckerException(toString(), SetType.TYPE_NAME + " or " + PrimtType.STRING);
+			throw new TypecheckerException(toString(), PrimtType.STRING + " or " + SetType.TYPE_NAME);
 	}
 	
 	
@@ -20,6 +19,11 @@ public interface Type {
 	default void checkIsSetType() throws TypecheckerException {
 		if (!(this instanceof SetType))
 			throw new TypecheckerException(toString(), toString() + " " + SetType.TYPE_NAME);
+	}
+	
+	default void checkIsOnlyaSetType() throws TypecheckerException {
+		if (!(this instanceof SetType))
+			throw new TypecheckerException(toString(), SetType.TYPE_NAME);
 	}
 	
 	default void checkIsPairType() throws TypecheckerException {

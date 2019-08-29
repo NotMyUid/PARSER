@@ -143,6 +143,7 @@ public class TypeCheck implements Visitor<Type> {
 	
 	@Override
 	public Type visitUnio(Exp left, Exp right) {
+		left.accept(this).checkIsOnlyaSetType();
 		Type t = left.accept(this);
 		checkBinOp(left, right, t);
 		return t;
@@ -150,6 +151,7 @@ public class TypeCheck implements Visitor<Type> {
 	
 	@Override
 	public Type visitInts(Exp left, Exp right) {
+		left.accept(this).checkIsOnlyaSetType();
 		Type t = left.accept(this);
 		checkBinOp(left, right, t);
 		return t;
