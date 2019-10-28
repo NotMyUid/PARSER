@@ -10,7 +10,8 @@ public class SetValue implements Value, Iterable<Value> {
 
 	private HashSet<Value> S = new HashSet<Value>();
 	
-	public SetValue() {
+	public SetValue(Value v) {
+		S.add(requireNonNull(v));
 	}
 	
 	public SetValue(SetValue Val) {
@@ -53,13 +54,10 @@ public class SetValue implements Value, Iterable<Value> {
 	@Override
 	public String toString() {
 		String str="";
-		Iterator<Value> itr = S.iterator();  
-        while (itr.hasNext()) {  
-             str+=itr.next();
-             str+=", ";}
-        if (str!="")
-        str=str.substring(0, str.length() - 2);
-             return "{" + str + "}";             
+		Iterator<Value> itr = S.iterator();   
+		while(itr.hasNext()){  str+=itr.next(); str+=", ";  }
+		if(str!="") str=str.substring(0, str.length() - 2);
+        return "{" + str + "}";             
 	}
 
 	@Override

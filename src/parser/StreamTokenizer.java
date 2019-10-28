@@ -88,10 +88,6 @@ public class StreamTokenizer implements Tokenizer {
 		}
 		if (scanner.group(NUM.ordinal()) != null) { // NUM
 			tokenType = NUM;
-			
-			// old version \\
-			// intValue = Integer.parseInt(tokenString); \\
-			
 			intValue = Integer.parseInt(base()==16?tokenString.substring(2) : tokenString, base());
 			return;
 		}
@@ -191,23 +187,3 @@ public class StreamTokenizer implements Tokenizer {
 		}
 	}
 }
-
-
-
-/*
-let i = "provone galattico \\ \\ \\ \\ \" \" \\";
-print i
- */
-
-
-
-
-
-
-
-
-
-
-
-
-

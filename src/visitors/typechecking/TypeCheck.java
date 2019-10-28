@@ -124,20 +124,6 @@ public class TypeCheck implements Visitor<Type> {
 	public Type visitIn(Exp left, Exp right) {
 		SetType t = new SetType(left.accept(this));
 		t.checkEqual(right.accept(this));
-		
-		/*
-			let i = {1} in {1,2,3};
-			print i;
-			
-			let p = {1,2} in {1,2};
-			print p;
-			
-			let o = {{{1,2}}} in {{{{1,2}}},{{{4,5}}}};
-			print o
-			
-			
-			*/
-		
 		return BOOL;
 }
 	

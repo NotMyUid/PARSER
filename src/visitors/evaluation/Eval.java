@@ -121,7 +121,7 @@ public class Eval implements Visitor<Value> {
 	
 	@Override
 	public Value visitSingleExp(Exp exp) {
-		return new SetValue(exp.accept(this), new SetValue());
+		return new SetValue(exp.accept(this));
 	}
 
 	@Override
