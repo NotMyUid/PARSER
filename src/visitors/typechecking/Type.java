@@ -14,13 +14,6 @@ public interface Type {
 			throw new TypecheckerException(toString(), PrimtType.STRING + " or " + SetType.TYPE_NAME);
 	}
 	
-	
-
-	default void checkIsSetType() throws TypecheckerException {
-		if (!(this instanceof SetType))
-			throw new TypecheckerException(toString(), toString() + " " + SetType.TYPE_NAME);
-	}
-	
 	default void checkIsOnlyaSetType() throws TypecheckerException {
 		if (!(this instanceof SetType))
 			throw new TypecheckerException(toString(), SetType.TYPE_NAME);
@@ -31,11 +24,6 @@ public interface Type {
 			throw new TypecheckerException(toString(), PairType.TYPE_NAME);
 	}
 
-	default Type getSetType() throws TypecheckerException {
-		checkIsSetType();
-		return ((SetType) this).getFstType();
-	}
-	
 	default Type getFstPairType() throws TypecheckerException {
 		checkIsPairType();
 		return ((PairType) this).getFstType();

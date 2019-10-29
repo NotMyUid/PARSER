@@ -116,7 +116,6 @@ public class TypeCheck implements Visitor<Type> {
 			Type t = exp.accept(this);
 			t.checkIsSetOrStringType();
 		}
-		
 		return INT;
 	}
 	
